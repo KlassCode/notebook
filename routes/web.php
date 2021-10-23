@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ContactController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,17 +15,26 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+// Route::post('login',[UserController::class,'login']);
+// Route::post('register',[UserController::class,'register']);
+// Route::get('create',[UserController::class,'create']);
+// Route::post('logout',[UserController::class,'logout']);
+   
+// Route::get('/contactList',[ContactController::class,'index']);
+// Route::prefix('auth')->name('auth.')->group( function () {
+//     Route::group( [ 'middleware' => 'auth' ], function(){
+        
+        
+//     });
+// });
 
-Route::prefix('auth')->name('auth.')->group( function () {
-    Route::group( [ 'middleware' => 'auth' ], function(){
-        
-        Route::post('login',[UserController::class,'login']);
-        Route::post('register',[UserController::class,'register']);
-        Route::get('create',[UserController::class,'create']);
-        Route::post('logout',[UserController::class,'logout']);
-        
-    });
-});
+// Auth::routes();
+
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('{any}', function () {
+    return view('layouts.app');
+})->where('any', '.*');

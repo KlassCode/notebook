@@ -15,9 +15,10 @@ class ContactController extends Controller
     public function index()
     {
         //list all contacts for user connected
-        $user = auth()->user();
-        $contacts = Contact::where('user_id', '=', $user->id)->latest()->get();
-        
+        // $user = auth()->user();
+        // $contacts = Contact::where('user_id', '=', $user->id)->latest()->get();
+        $contacts = Contact::all();
+        return response()->json($contacts);
     }
 
     /**
@@ -38,6 +39,13 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
+        //validation 
+        $request->validate([
+            'name'=> 'required|max:255',
+            'phone'=>'required|unique:contacts|Regex:#^[0-9]{8}$#',
+            'email'=>'required|unique:contacts',
+          ]);
+
         //Add new Contact
         $contact = new Contact([
             'name'=>$request->input('name'),

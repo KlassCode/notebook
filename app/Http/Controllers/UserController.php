@@ -25,6 +25,8 @@ class UserController extends Controller
      */
 
     public function login(Request $request){
+        $this->validation($request);
+        
         if(Auth::attempt(['email'=>$request->email,'password'=>$request->password],true)){
             return response()->json(Auth::user(),200);
         }else{
@@ -33,6 +35,7 @@ class UserController extends Controller
     }
 
     public function register(Request $request){
+        $this->validation($request);
 
         $user = User::where('email',$request->email)->first();
 
@@ -51,7 +54,18 @@ class UserController extends Controller
             return response()->json($user,200);
 
         }
+        
+    }
 
+    public function validation($request){
+        $request->validate([
+            'email'       => 'required|max:255|unique:users',
+            'password' => 'required',
+        ]);
+    }
+
+    public function logout(){
+            
     }
 
 }
